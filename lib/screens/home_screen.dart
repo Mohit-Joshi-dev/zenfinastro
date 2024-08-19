@@ -70,11 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         children: [
                           const SizedBox(height: 50),
-                          GestureDetector(
-                              onTap: () {
-                                print("gesture1");
-                              },
-                              child: const GoldStrip(text: "How we work")),
+                          const GoldStrip(text: "How we work"),
                           Padding(
                             padding: const EdgeInsets.symmetric(
                               vertical: 20,
@@ -105,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ImageCarousel(),
                           const Padding(
                             padding: EdgeInsets.symmetric(vertical: 50),
-                            child: GoldStrip(text: "Our Exclusive Services"),
+                            child: GoldStrip(text: "Services"),
                           ),
                           ExServiceImage(),
                           const Padding(
@@ -189,6 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 )),
           ],
         ),
+        bottomNavigationBar: const GoldStrip(text: "Our Exclusive Services"),
       ),
     );
   }
