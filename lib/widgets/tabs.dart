@@ -31,7 +31,7 @@ class Tabs extends StatelessWidget {
                   child: Text(
                     text,
                     style: GoogleFonts.wixMadeforText(
-                        color: isActive ? Colors.blue : null, fontSize: 15),
+                        color: !isActive ? Colors.blue : null, fontSize: 15),
                   ),
                 ),
               ),

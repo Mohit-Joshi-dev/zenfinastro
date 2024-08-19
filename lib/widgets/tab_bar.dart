@@ -25,13 +25,8 @@ class TabBar extends StatelessWidget {
                   text: "Home",
                   isActive: !isHome,
                   onTap: () {
-                    print("navigate to home");
                     if (!isHome) {
-                      print("navigate to home");
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomeScreen()));
+                      Navigator.pop(context);
                     }
                   },
                 ),
@@ -39,13 +34,16 @@ class TabBar extends StatelessWidget {
                   text: "Services",
                   isActive: isHome,
                   onTap: () {
-                    print("navigate to services");
                     if (isHome) {
-                      print("navigate to services");
                       Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const ServicesScreen()));
+                          PageRouteBuilder(
+                            pageBuilder: (_, __, ___) => const ServicesScreen(),
+                            transitionDuration:
+                                const Duration(milliseconds: 500),
+                            transitionsBuilder: (_, a, __, c) =>
+                                FadeTransition(opacity: a, child: c),
+                          ));
                     }
                   },
                 ),
