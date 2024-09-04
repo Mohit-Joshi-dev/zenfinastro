@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:zenfinastro/app_consts.dart';
 import 'package:zenfinastro/screens/screens.dart';
 import 'package:google_fonts/google_fonts.dart';
 

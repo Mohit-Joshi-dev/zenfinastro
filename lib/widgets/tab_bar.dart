@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:zenfinastro/screens/screens.dart';
-import 'package:zenfinastro/widgets/widgets.dart';
 
 class TabBar extends StatelessWidget {
   const TabBar({
@@ -19,44 +17,48 @@ class TabBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              children: [
-                Tabs(
-                  text: "Home",
-                  isActive: !isHome,
-                  onTap: () {
-                    if (!isHome) {
-                      Navigator.pop(context);
-                    }
-                  },
+            // Column(
+            //   children: [
+            //     Tabs(
+            //       text: "Home",
+            //       isActive: !isHome,
+            //       onTap: () {
+            //         if (!isHome) {
+            //           Navigator.pop(context);
+            //         }
+            //       },
+            //     ),
+            //     Tabs(
+            //       text: "Services",
+            //       isActive: isHome,
+            //       onTap: () {
+            //         if (isHome) {
+            //           Navigator.push(
+            //               context,
+            //               PageRouteBuilder(
+            //                 pageBuilder: (_, __, ___) => const ServicesScreen(),
+            //                 transitionDuration:
+            //                     const Duration(milliseconds: 500),
+            //                 transitionsBuilder: (_, a, __, c) =>
+            //                     FadeTransition(opacity: a, child: c),
+            //               ));
+            //         }
+            //       },
+            //     ),
+            //   ],
+            // ),
+            if (!isHome)
+              IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(
+                  Icons.arrow_back_ios_new,
+                  color: Colors.black,
                 ),
-                Tabs(
-                  text: "Services",
-                  isActive: isHome,
-                  onTap: () {
-                    if (isHome) {
-                      Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (_, __, ___) => const ServicesScreen(),
-                            transitionDuration:
-                                const Duration(milliseconds: 500),
-                            transitionsBuilder: (_, a, __, c) =>
-                                FadeTransition(opacity: a, child: c),
-                          ));
-                    }
-                  },
-                ),
-              ],
-            ),
-            GestureDetector(
-              onTap: () {
-                debugPrint("logo");
-              },
-              child: Image.asset(
-                "assets/appBarLogo.png",
-                height: 80,
               ),
+            const SizedBox(),
+            Image.asset(
+              "assets/appBarLogo.png",
+              height: 80,
             ),
           ],
         ),

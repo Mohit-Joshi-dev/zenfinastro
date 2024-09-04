@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zenfinastro/app_consts.dart';
+import 'package:zenfinastro/screens/screens.dart';
 
 import '../widgets/widgets.dart';
 import 'package:zenfinastro/widgets/tab_bar.dart' as tb;
@@ -185,7 +187,32 @@ class _HomeScreenState extends State<HomeScreen> {
                 )),
           ],
         ),
-        bottomNavigationBar: const GoldStrip(text: "Our Exclusive Services"),
+        bottomNavigationBar: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => const ServicesScreen(),
+                    transitionDuration: const Duration(milliseconds: 500),
+                    transitionsBuilder: (_, a, __, c) =>
+                        FadeTransition(opacity: a, child: c),
+                  ));
+            },
+            child: const GoldStrip(text: "Our Exclusive Services")),
+        floatingActionButton: CircleAvatar(
+          radius: 33,
+          backgroundColor: AppConsts.appBGColor,
+          child: IconButton(
+              highlightColor: AppConsts.appBGColor,
+              onPressed: () {
+                debugPrint("Navigate to whatsapp");
+              },
+              icon: const Icon(
+                FontAwesomeIcons.whatsapp,
+                color: Colors.green,
+                size: 45,
+              )),
+        ),
       ),
     );
   }

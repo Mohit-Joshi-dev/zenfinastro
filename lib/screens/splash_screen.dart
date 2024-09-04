@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zenfinastro/app_consts.dart';
 import 'dart:math' as math;
 import 'package:intl/intl.dart';
+import 'package:zenfinastro/data/data.dart';
 import 'package:zenfinastro/screens/screens.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -198,7 +201,16 @@ class _SplashScreenState extends State<SplashScreen>
           ));
         } else {
           final prefs = await SharedPreferences.getInstance();
-          prefs.setBool("is_not_first_run", true);
+          // prefs.setBool("is_not_first_run", true);
+          await GSheetService().uploadData(
+              emailController.text, phoneController.text, dateController.text);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomeScreen(),
+            ),
+            (_) => false,
+          );
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -212,13 +224,15 @@ class _SplashScreenState extends State<SplashScreen>
   void checkFirstRun() async {
     final prefs = await SharedPreferences.getInstance();
     final value = prefs.getBool("is_not_first_run") ?? false;
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () async {
       if (value) {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
-            ));
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomeScreen(),
+          ),
+          (_) => false,
+        );
       } else {
         showForm();
       }
