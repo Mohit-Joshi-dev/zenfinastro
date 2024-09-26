@@ -201,7 +201,7 @@ class _SplashScreenState extends State<SplashScreen>
           ));
         } else {
           final prefs = await SharedPreferences.getInstance();
-          // prefs.setBool("is_not_first_run", true);
+          prefs.setBool("is_not_first_run", true);
           await GSheetService().uploadData(
               emailController.text, phoneController.text, dateController.text);
           Navigator.pushAndRemoveUntil(

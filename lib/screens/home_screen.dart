@@ -1,6 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:overflow_text_animated/overflow_text_animated.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:zenfinastro/app_consts.dart';
 import 'package:zenfinastro/screens/screens.dart';
 
@@ -199,19 +205,32 @@ class _HomeScreenState extends State<HomeScreen> {
                   ));
             },
             child: const GoldStrip(text: "Our Exclusive Services")),
-        floatingActionButton: CircleAvatar(
-          radius: 33,
-          backgroundColor: AppConsts.appBGColor,
-          child: IconButton(
-              highlightColor: AppConsts.appBGColor,
-              onPressed: () {
-                debugPrint("Navigate to whatsapp");
-              },
-              icon: const Icon(
-                FontAwesomeIcons.whatsapp,
-                color: Colors.green,
-                size: 45,
-              )),
+        floatingActionButton: PhysicalModel(
+          color: Colors.black,
+          elevation: 10.0,
+          shape: BoxShape.circle,
+          child: CircleAvatar(
+            radius: 33,
+            backgroundColor: AppConsts.appBGColor,
+            child: IconButton(
+                highlightColor: AppConsts.appBGColor,
+                onPressed: () async {
+                  debugPrint("Navigate to whatsapp");
+                  final url = getUrl("This is a test message.", "8850011635");
+                  if (await canLaunchUrl(Uri.parse(url))) {
+                    launchUrl(Uri.parse(url));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Unable to connect to WhatsApp"),
+                    ));
+                  }
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.whatsapp,
+                  color: Colors.green,
+                  size: 45,
+                )),
+          ),
         ),
       ),
     );
@@ -222,6 +241,14 @@ class _HomeScreenState extends State<HomeScreen> {
     _topScrollController.dispose();
     _bottomScrollController.dispose();
     super.dispose();
+  }
+
+  String getUrl(String message, String phone) {
+    if (Platform.isAndroid) {
+      return "https://wa.me/$phone/?text=${Uri.parse(message)}";
+    } else {
+      return "https://api.whatsapp.com/send?phone=$phone=${Uri.parse(message)}";
+    }
   }
 }
 
@@ -284,13 +311,50 @@ class _MiddleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return Image.asset(
-      "assets/appMiddleImage.webp",
-      height: screenSize.width,
-      width: screenSize.width,
-      fit: BoxFit.cover,
-      color: Colors.white.withOpacity(0.35),
-      colorBlendMode: BlendMode.colorDodge,
+    return Stack(
+      children: [
+        Image.asset(
+          "assets/appMiddleImage.webp",
+          height: screenSize.width,
+          width: screenSize.width,
+          fit: BoxFit.cover,
+          color: Colors.white.withOpacity(0.35),
+          colorBlendMode: BlendMode.colorDodge,
+        ),
+        SizedBox(
+          height: screenSize.width,
+          width: screenSize.width,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Welcome to Zen Financial Astrology",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.fahkwang(fontSize: 24),
+                ),
+                Text(
+                  "Your Astral Business Advisor",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.fahkwang(fontSize: 18),
+                ),
+                const SizedBox(height: 20),
+                OverflowTextAnimated(
+                  text:
+                      "As your Astral Business Advisor, we offer unique insights that go beyond traditional financial planning.",
+                  style: GoogleFonts.fahkwang(),
+                  curve: Curves.linear,
+                  animation: OverFlowTextAnimations.infiniteLoop,
+                  animateDuration: const Duration(milliseconds: 80),
+                  loopSpace: 100,
+                )
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 }
